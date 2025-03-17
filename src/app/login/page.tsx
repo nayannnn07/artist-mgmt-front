@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import { LoginForm } from "@/components/login-form";
 
 export default function LoginPage() {
@@ -8,4 +9,16 @@ export default function LoginPage() {
       </div>
     </div>
   );
+=======
+import { LoginForm } from "@/components/login-form"
+
+export default function Page() {
+  return (
+    <div className="flex min-h-svh w-full items-center justify-center p-6 md:p-10">
+      <div className="w-full max-w-sm">
+        <LoginForm />
+      </div>
+    </div>
+  )
+>>>>>>> 3ee72a4f (feat: add login module)
 }
