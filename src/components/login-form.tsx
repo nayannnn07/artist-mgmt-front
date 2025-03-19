@@ -8,6 +8,8 @@ import { login } from "@/api/api";
 import { useState } from "react";
 import { Eye, EyeOff } from "lucide-react";
 import { useRouter } from "next/navigation";
+import Image from "next/image";
+import LoginImage from "@/assets/images/login-img.jpg";in
 
 export function LoginForm({
   className,
@@ -186,8 +188,10 @@ export function LoginForm({
             </div>
           </form>
           <div className="bg-muted relative hidden md:block">
-            <img
-              src="/placeholder.svg"
+        <Image
+              height={500}
+              width={500}
+              src={LoginImage}
               alt="Image"
               className="absolute inset-0 h-full w-full object-cover dark:brightness-[0.2] dark:grayscale"
             />
