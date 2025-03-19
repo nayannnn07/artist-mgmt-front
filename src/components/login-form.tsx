@@ -1,31 +1,128 @@
-import { cn } from "@/lib/utils"
-import { Button } from "@/components/ui/button"
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
+"use client";
+import { cn } from "@/lib/utils";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { login } from "@/api/api";
+import { useState } from "react";
+import { Eye, EyeOff } from "lucide-react";
+import { useRouter } from "next/navigation";
+import Image from "next/image";
+import LoginImage from "@/assets/images/login-img.jpg";
 
 export function LoginForm({
   className,
   ...props
 }: React.ComponentProps<"div">) {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const router = useRouter();
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsLoading(true);
+    setError(null);
+
+    try {
+      const credentials = { email, password };
+      console.log("Attempting login with:", email);
+      const response = await login(credentials);
+      console.log("Login successful:", response);
+
+      // Handle successful login
+      if (response && response.access_token) {
+        localStorage.setItem("access_token", response.access_token);
+
+        if (response.refresh_token) {
+          localStorage.setItem("refresh_token", response.refresh_token);
+        }
+
+        if (response.user) {
+          localStorage.setItem("user", JSON.stringify(response.user));
+        }
+
+        // Redirect to dashboard
+        router.push("/dashboard");
+      } else {
+        throw new Error("Invalid response from server");
+      }
+    } catch (error) {
+      console.error("Login error:", error);
+      if (error instanceof Error) {
+        setError(
+          error.message || "Invalid email or password. Please try again."
+        );
+      } else {
+        setError("Invalid email or password. Please try again.");
+      }
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  // Alternative button handler as a backup approach
+  const handleLoginClick = async () => {
+    setIsLoading(true);
+    setError(null);
+
+    try {
+      const credentials = { email, password };
+      console.log("Attempting login with:", email);
+      const response = await login(credentials);
+      console.log("Login successful:", response);
+
+      // Handle successful login
+      if (response && response.access_token) {
+        localStorage.setItem("access_token", response.access_token);
+
+        if (response.refresh_token) {
+          localStorage.setItem("refresh_token", response.refresh_token);
+        }
+
+        if (response.user) {
+          localStorage.setItem("user", JSON.stringify(response.user));
+        }
+
+        // Redirect to dashboard
+        router.push("/dashboard");
+      } else {
+        throw new Error("Invalid response from server");
+      }
+    } catch (error: any) {
+      console.error("Login error:", error);
+      setError(error.message || "Invalid email or password. Please try again.");
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   return (
     <div className={cn("flex flex-col gap-6", className)} {...props}>
-      <Card>
-        <CardHeader>
-          <CardTitle>Login to your account</CardTitle>
-          <CardDescription>
-            Enter your email below to login to your account
-          </CardDescription>
-        </CardHeader>
-        <CardContent>
-          <form>
+      <Card className="overflow-hidden p-0">
+        <CardContent className="grid p-0 md:grid-cols-2">
+          {/* Explicitly set method to POST and add noValidate to prevent browser validation */}
+          <form
+            method="POST"
+            onSubmit={handleSubmit}
+            className="p-6 md:p-8"
+            noValidate
+          >
             <div className="flex flex-col gap-6">
+              <div className="flex flex-col items-center text-center">
+                <h1 className="text-2xl font-bold">Artist Management System</h1>
+                <p>Welcome back!</p>
+              </div>
+
+              {error && (
+                <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative">
+                  {error}
+                </div>
+              )}
+
               <div className="grid gap-3">
                 <Label htmlFor="email">Email</Label>
                 <Input
@@ -88,12 +185,11 @@ export function LoginForm({
           </form>
           <div className="bg-muted relative hidden md:block">
             <Image
-              width={500}
               height={500}
-              src="/assets/images/login-img.jpg"
+              width={500}
+              src={LoginImage}
               alt="Image"
-              objectFit="cover"
-              className="dark:brightness-[0.2] dark:grayscale"
+              className="absolute inset-0 h-full w-full object-cover dark:brightness-[0.2] dark:grayscale"
             />
           </div>
         </CardContent>
