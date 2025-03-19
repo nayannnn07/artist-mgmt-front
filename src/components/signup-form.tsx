@@ -10,7 +10,7 @@ import { Eye, EyeOff } from "lucide-react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 
-export function LoginForm({
+export function SignupForm({
   className,
   ...props
 }: React.ComponentProps<"div">) {
@@ -113,7 +113,7 @@ export function LoginForm({
             <div className="flex flex-col gap-6">
               <div className="flex flex-col items-center text-center">
                 <h1 className="text-2xl font-bold">Artist Management System</h1>
-                <p>Welcome back!</p>
+                <p>Welcome!</p>
               </div>
 
               {error && (
@@ -121,6 +121,92 @@ export function LoginForm({
                   {error}
                 </div>
               )}
+
+              <div className="grid gap-3">
+                <Label htmlFor="first_name">First Name</Label>
+                <Input
+                  id="fname"
+                  type="text"
+                  placeholder=""
+                  value=""
+                  onChange={(e) => setEmail(e.target.value)}
+                  required
+                />
+              </div>
+
+              <div className="grid gap-3">
+                <Label htmlFor="last_name">Last Name</Label>
+                <Input
+                  id="lname"
+                  type="text"
+                  placeholder=""
+                  value=""
+                  onChange={(e) => setEmail(e.target.value)}
+                  required
+                />
+              </div>
+
+              <div className="grid gap-3">
+                <Label htmlFor="address">Address</Label>
+                <Input
+                  id="address"
+                  type="text"
+                  placeholder=""
+                  value=""
+                  onChange={(e) => setEmail(e.target.value)}
+                  required
+                />
+              </div>
+
+              <div className="grid gap-3">
+                <Label htmlFor="phone">Phone</Label>
+                <Input
+                  id="lname"
+                  type="text"
+                  placeholder=""
+                  value=""
+                  onChange={(e) => setEmail(e.target.value)}
+                  required
+                />
+              </div>
+
+              <div className="grid gap-3">
+                <Label htmlFor="dob">Date of Birth</Label>
+                <Input
+                  id="dob"
+                  type="date"
+                  placeholder=""
+                  value=""
+                  onChange={(e) => setEmail(e.target.value)}
+                  required
+                />
+              </div>
+
+              <div className="grid gap-3">
+                <Label htmlFor="gender">Gender</Label>
+                <div className="flex gap-4">
+                  {["Male", "Female", "Other"].map((option) => (
+                    <label key={option} className="flex items-center gap-2">
+                      <input type="radio" name="gender" value="" />
+                      {option}
+                    </label>
+                  ))}
+                </div>
+              </div>
+
+              <div className="grid gap-3">
+                <Label htmlFor="role">Role</Label>
+                <select
+                  id="role"
+                  className="p-2 border rounded-md"
+                  value=""
+                  //   onChange={(e) => setRole(e.target.value)}
+                >
+                  <option value="super_admin">Super Admin</option>
+                  <option value="artist_manager">Artist Manager</option>
+                  <option value="artist">Artist</option>
+                </select>
+              </div>
 
               <div className="grid gap-3">
                 <Label htmlFor="email">Email</Label>
@@ -175,9 +261,9 @@ export function LoginForm({
               </Button>
 
               <div className="text-center text-sm">
-                Don&apos;t have an account?{" "}
-                <a href="/signup" className="underline underline-offset-4">
-                  Sign up
+                Already have an account?{" "}
+                <a href="/login" className="underline underline-offset-4">
+                  Log in
                 </a>
               </div>
             </div>
