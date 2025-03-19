@@ -9,7 +9,8 @@ import { useState } from "react";
 import { Eye, EyeOff } from "lucide-react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
-import LoginImage from "@/assets/images/login-img.jpg";in
+import Link from "next/link";
+import LoginImage from "@/assets/images/login-img.jpg";
 
 export function LoginForm({
   className,
@@ -176,15 +177,11 @@ export function LoginForm({
               </Button>
 
               <div className="text-center text-sm">
-                Don&apos;t have an account?{" "}
-                <a
-                  href="/signup"
-                  className="underline underline-offset-4"
-                  
-                >
-                  Sign up
-                </a>
-              </div>
+  Don&apos;t have an account?{" "}
+  <Link href="/signup" className="underline underline-offset-4">
+    Sign up
+  </Link>
+</div>
             </div>
           </form>
           <div className="bg-muted relative hidden md:block">
