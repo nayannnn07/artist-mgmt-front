@@ -8,7 +8,8 @@ import { useState } from "react";
 import { Eye, EyeOff } from "lucide-react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
-import { signUp } from "../api/api"; // Importing API function
+import { signUp } from "../../api/api"; // Importing API function
+import Link from "next/link";
 
 export function SignupForm({
   className,
@@ -66,7 +67,7 @@ export function SignupForm({
       const data = await signUp(formData);
       console.log("Signup successful:", data);
       alert("Signup successful! Redirecting to login...");
-      router.push("/login");
+      router.push("/");
     } catch (error) {
       setError(
         typeof error === "string" ? error : "Signup failed. Please try again."
@@ -188,7 +189,7 @@ export function SignupForm({
                   required
                   className="border rounded-md p-2 w-full"
                 >
-                  <option value="super_admin">Super Admin</option>
+                  {/* <option value="super_admin">Super Admin</option> */}
                   <option value="artist_manager">Artist Manager</option>
                   <option value="artist">Artist</option>
                 </select>
@@ -216,8 +217,19 @@ export function SignupForm({
 
             <Label>Confirm Password</Label>
             <div className="relative">
-              <Input type={showConfirmPassword ? "text" : "password"} name="confirm_password" value={formData.confirm_password} onChange={handleChange} required className="pr-10" />
-              <button type="button" onClick={() => setShowConfirmPassword(!showConfirmPassword)} className="absolute inset-y-0 right-2 flex items-center">
+              <Input
+                type={showConfirmPassword ? "text" : "password"}
+                name="confirm_password"
+                value={formData.confirm_password}
+                onChange={handleChange}
+                required
+                className="pr-10"
+              />
+              <button
+                type="button"
+                onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                className="absolute inset-y-0 right-2 flex items-center"
+              >
                 {showConfirmPassword ? <EyeOff size={18} /> : <Eye size={18} />}
               </button>
             </div>
@@ -232,9 +244,9 @@ export function SignupForm({
 
             <p className="text-center text-sm">
               Already have an account?{" "}
-              <a href="/login" className="text-blue-500 hover:underline">
+              <Link href="/" className="text-blue-500 hover:underline">
                 Log in
-              </a>
+              </Link>
             </p>
           </form>
 
